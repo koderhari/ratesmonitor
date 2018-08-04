@@ -2,7 +2,9 @@
 using RatesMonitor.Core;
 using RatesMonitor.Domain;
 using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Timers;
@@ -16,6 +18,12 @@ namespace TestPrototype
 
         public static async Task Main(string[] args)
         {
+            var dateStr = "02.Jan 2018";
+            var dt = DateTime.Parse(dateStr);
+            var res = getWorkingDaysByWeek(dt);
+            OutputWorkingDays(res);
+            var res2 = getWorkingDaysByWeek(new DateTime(2018,2,1));
+            OutputWorkingDays(res2);
             var builder = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory())
             .AddJsonFile("appsettings.json");
             _configuration = builder.Build();
@@ -25,6 +33,52 @@ namespace TestPrototype
             StopTimer();
 
         }
+
+        static void OutputWorkingDays(Dictionary<int, List<DateTime>> weeks)
+        {
+            foreach (var item in weeks)
+            {
+                Console.WriteLine($"week {item.Key}");
+                Console.WriteLine("");
+                foreach (var itemValue in item.Value)
+                {
+                    Console.Write($"{itemValue.ToString("dd")} ");
+                }
+                Console.WriteLine("");
+            }
+        }
+
+        //to-do test if any time
+        static Dictionary<int,List<DateTime>> getWorkingDaysByWeek(DateTime date)
+        {
+            var weekNum = 0;
+            var result = new Dictionary<int, List<DateTime>>();
+            foreach (var day in Enumerable.Range(1, DateTime.DaysInMonth(date.Year, date.Month)).Select(d => new DateTime(date.Year, date.Month,d)))
+            {
+                if (day.DayOfWeek == DayOfWeek.Saturday || day.DayOfWeek == DayOfWeek.Sunday) continue;
+                if (!result.TryGetValue(weekNum, out var week))
+                {
+                    week = new List<DateTime>();
+                    result[weekNum] = week;
+                }
+
+                if (day.DayOfWeek == DayOfWeek.Monday)
+                {
+                    weekNum = weekNum == 0 && week.Count == 0 ? weekNum : weekNum + 1;
+                }
+
+
+                if (!result.TryGetValue(weekNum, out week))
+                {
+                    week = new List<DateTime>();
+                    result[weekNum] = week;
+                }
+                week.Add(day);
+            }
+
+            return result;
+        }
+
 
         static void StopTimer()
         {

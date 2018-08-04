@@ -94,7 +94,81 @@ namespace RatesMonitor.Core.Infrastructure
 
         public async Task<List<CurrencyRate>> GetYearRates(int year)
         {
-            throw new NotImplementedException();
+            var result = new List<CurrencyRate>();
+            using (var client = GetHttpClient())
+            {
+                var yearResponse = await client.GetAsync($"/en/financial_markets/foreign_exchange_market/exchange_rate_fixing/year.txt?year={year}");
+                var (valid, rawResponse) = await IsValidResponse(yearResponse);
+                if (valid)
+                {
+                    result = ParseYearRates(rawResponse);
+                }
+            }
+
+            return result;
+            
+        }
+
+        private List<CurrencyRate> ParseYearRates(string rawResponse)
+        {
+            var result = new List<CurrencyRate>();
+            var rows = rawResponse.Split("\n", StringSplitOptions.RemoveEmptyEntries);
+            var ratesTemplate = ParseHeader(rows[0]);
+            for (var i = 1; i < rows.Length; i ++)
+            {
+                try
+                {
+                    result.AddRange(ParseYearRowRates(ratesTemplate, rows[i]));
+                }
+                catch (Exception error)
+                {
+                    _logger.LogError($"Error while parse {rows[i]} {error}");
+                }
+            }
+
+            return result;
+        }
+
+        private List<(string code, int amount)> ParseHeader(string row)
+        {
+            try
+            {
+                var result = new List<(string code, int amount)>();
+                var parts = row.Split("|", StringSplitOptions.RemoveEmptyEntries);
+                for (int i = 1; i < parts.Length; i++)
+                {
+                    var itemParts = parts[i].Split(" ", StringSplitOptions.RemoveEmptyEntries);
+                    var amount = int.Parse(itemParts[0]);
+                    result.Add((itemParts[1], amount));
+                }
+
+                return result;
+            }
+            catch (Exception e)
+            {
+                _logger.LogError($"Error while parse header {row} {e}");
+                throw;
+            }
+
+        }
+
+        private IEnumerable<CurrencyRate> ParseYearRowRates(List<(string code, int amount)> rowHeaderTemplates,string row)
+        {
+            var result = new List<CurrencyRate>();
+            var parts = row.Split("|", StringSplitOptions.RemoveEmptyEntries);
+            var date = DateTime.Parse(parts[0]);
+            for (int i = 0; i < rowHeaderTemplates.Count; i++)
+            {
+                var rate = parts[i + 1].DecimalParse();
+                var newItem = new CurrencyRate();
+                newItem.CurrencyCode = rowHeaderTemplates[i].code;
+                newItem.Amount = rowHeaderTemplates[i].amount;
+                newItem.Date = date;
+                newItem.OriginalRate = rate;
+                newItem.CalculateFinalRate();
+                result.Add(newItem);
+            }
+            return result;
         }
 
         private HttpClient GetHttpClient()

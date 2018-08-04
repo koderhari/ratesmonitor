@@ -1,0 +1,7 @@
+/.vs
+/RatesMonitor.Core/bin
+/RatesMonitor.Core/obj
+/RatesMonitor.DailyUpdater/bin
+/RatesMonitor.DailyUpdater/obj
+/TestPrototype/bin
+/TestPrototype/obj

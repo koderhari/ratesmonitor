@@ -63,6 +63,9 @@ namespace RatesMonitor.Core.Infrastructure
 
         private List<IGrouping<DateTime,ReportCurrencyRate>> GetRatesFromDb(int year, int month, string[] currencies)
         {
+            //https://docs.microsoft.com/ru-ru/ef/core/what-is-new/ef-core-2.1
+            //печально что в данном случае не поддерживается groupBy
+            //to-do переделать в plain и уже псевдо группировать при переборе
             using (var context = _contextFactory.Create())
             {
                 return context.DailyCurrencyRates
@@ -72,5 +75,6 @@ namespace RatesMonitor.Core.Infrastructure
                     .OrderBy(x => x.Key).ToList();
             }
         }
+      
     }
 }

@@ -44,7 +44,14 @@ namespace RatesMonitor.WebApi
             services.AddSingleton<IDBContextFactory>((sp) =>
             new DBContextFactory(Configuration.GetConnectionString("RatesDB")));
             services.AddSingleton<IReportService, ReportService>();
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+
+            var builder = services.AddMvcCore();
+            builder.AddApiExplorer();
+            builder.AddFormatterMappings();
+            builder.AddJsonFormatters();
+            builder.AddCors();
+
+            //services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -112,7 +112,7 @@ namespace TestPrototype
               
             using (var dbContext = new RatesContext())
             {
-                await dbContext.DailyRates.AddAsync(newItem);
+                await dbContext.DailyCurrencyRates.AddAsync(newItem);
                 await dbContext.SaveChangesAsync();
             }
         }

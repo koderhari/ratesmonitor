@@ -67,7 +67,7 @@ namespace RatesMonitor.Core.Infrastructure
         {
             using (var context = _contextFactory.Create())
             {
-                return context.DailyRates
+                return context.DailyCurrencyRates
                     .Where(x => x.Date.Year == year && x.Date.Month == month && currencies.Contains(x.CurrencyCode))
                     .GroupBy(x => x.Date)
                     .OrderBy(x => x.Key).ToList();

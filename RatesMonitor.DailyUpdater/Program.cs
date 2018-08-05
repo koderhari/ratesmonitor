@@ -25,7 +25,8 @@ namespace RatesMonitor.DailyUpdater
             settings.Interval = interval;
             var serviceProvider = new ServiceCollection()
             .AddLogging()
-            .AddSingleton<IDBContextFactory, DBContextFactory>()
+            .AddSingleton<IDBContextFactory>((sp) =>
+            new DBContextFactory(_configuration.GetConnectionString("RatesDB")))
             .AddSingleton<IBankService,BankService>()
             .AddSingleton(settings)
             .AddSingleton<IRatesUpdateScheduleTask, RatesUpdateScheduleTask>()

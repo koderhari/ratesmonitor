@@ -34,7 +34,7 @@ namespace RatesMonitor.YearUpdater.Infrastructure
             {
                 using (var dbContext = _contextFactory.Create())
                 {
-                    if (dbContext.DailyRates.Any(x => x.Date.Year == year))
+                    if (dbContext.DailyCurrencyRates.Any(x => x.Date.Year == year))
                     {
                         _logger.LogWarning($"Current year {year} already in db");
                     }
@@ -44,7 +44,7 @@ namespace RatesMonitor.YearUpdater.Infrastructure
                     for (int i = 0; i < yearRates.Count; i+=bulkSize)
                     {
                         var forInsert = yearRates.Skip(i).Take(bulkSize);
-                        dbContext.DailyRates.AddRange(forInsert);
+                        dbContext.DailyCurrencyRates.AddRange(forInsert);
                         dbContext.SaveChanges();
                     }
                 }

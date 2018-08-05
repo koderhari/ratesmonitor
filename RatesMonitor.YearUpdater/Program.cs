@@ -1,9 +1,11 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using RatesMonitor.Core;
 using RatesMonitor.Core.Infrastructure;
 using RatesMonitor.YearUpdater.Infrastructure;
 using System;
+using System.IO;
 
 namespace RatesMonitor.YearUpdater
 {
@@ -11,9 +13,14 @@ namespace RatesMonitor.YearUpdater
     {
         static void Main(string[] args)
         {
+            var builder = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json");
+            var configuration = builder.Build();
             var serviceProvider = new ServiceCollection()
             .AddLogging()
-            .AddSingleton<IDBContextFactory, DBContextFactory>()
+            .AddSingleton<IDBContextFactory>((sp) =>
+            new DBContextFactory(configuration.GetConnectionString("RatesDB")))
             .AddSingleton<IBankService, BankService>()
             .AddSingleton<IRatesBulkLoader, RatesBulkLoader>()
             .BuildServiceProvider();
@@ -33,7 +40,9 @@ namespace RatesMonitor.YearUpdater
                     Console.WriteLine("Invalid year, try again");
                     continue;
                 }
+                Console.WriteLine("Start loading");
                 scheduleTask.LoadData(year);
+                Console.WriteLine("Loading finish");
             }
         }
     }

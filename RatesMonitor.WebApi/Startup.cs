@@ -41,7 +41,8 @@ namespace RatesMonitor.WebApi
                 settings.CurrenciesForReport = Configuration.GetSection("CurrenciesForReport").Get<List<string>>();
             });
 
-            services.AddSingleton<IDBContextFactory, DBContextFactory>();
+            services.AddSingleton<IDBContextFactory>((sp) =>
+            new DBContextFactory(Configuration.GetConnectionString("RatesDB")));
             services.AddSingleton<IReportService, ReportService>();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }

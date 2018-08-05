@@ -63,8 +63,8 @@ namespace RatesMonitor.DailyUpdater.Infrastructure
             using (var dbContext = _contextFactory.Create())
             {
                 var dailyRates = _bankService.GetDailyRates(DateTime.Now).Result;
-                var ratesInDb = dbContext.DailyRates.Where(x => x.Date == date).ToList();
-                //в базе может быть а может не быть какой то валюты надо поправить этот case
+                if (dailyRates.Count == 0) return;
+                var ratesInDb = dbContext.DailyCurrencyRates.Where(x => x.Date == date).ToList();
                 if (ratesInDb.Count != 0)
                 {
                     var ratesInDbByCurrency = ratesInDb.ToDictionary(x => x.CurrencyCode);

@@ -68,7 +68,7 @@ namespace RatesMonitor.Core.Infrastructure
         {
             var rows = rawResponse.Split("\n", StringSplitOptions.RemoveEmptyEntries);
             var result = new List<DailyCurrencyRate>();
-            var dtFromResponse = DateTime.Parse(rows[1].Split(" ")[0]);
+            var dtFromResponse = DateTime.Parse(rows[0].Split(" ")[0]);
             var isHoliday = dtFromResponse.Date != date;
             if (isHoliday) return new List<DailyCurrencyRate>();
             for (var i = 2; i < rows.Length; i++)

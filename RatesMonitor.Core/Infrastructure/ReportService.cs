@@ -39,7 +39,6 @@ namespace RatesMonitor.Core.Infrastructure
                     result.Add(weekRates);
                 }
                 prevWeekDay = day.EuroDayOfWeek();
-                //здесь надо медиану смотреть и считать
                 var week = result[weekNum];
                 week.Days.Add(day.Day);
 
@@ -55,20 +54,20 @@ namespace RatesMonitor.Core.Infrastructure
 
                     currencyData.Max = rate.FinalRate > currencyData.Max ? rate.FinalRate : currencyData.Max;
                     currencyData.Min = rate.FinalRate < currencyData.Min ? rate.FinalRate : currencyData.Min;
-                    currencyData.Values.Add(rate.FinalRate);
+                    currencyData.RatesValues.Add(rate.FinalRate);
                 }
-
                
             }
             return result;
-         }
+        }
 
-        private List<IGrouping<DateTime,DailyCurrencyRate>> GetRatesFromDb(int year, int month, string[] currencies)
+        private List<IGrouping<DateTime,ReportCurrencyRate>> GetRatesFromDb(int year, int month, string[] currencies)
         {
             using (var context = _contextFactory.Create())
             {
                 return context.DailyCurrencyRates
                     .Where(x => x.Date.Year == year && x.Date.Month == month && currencies.Contains(x.CurrencyCode))
+                    .Select(x => new ReportCurrencyRate { CurrencyCode = x.CurrencyCode, Date = x.Date, FinalRate = x.FinalRate })
                     .GroupBy(x => x.Date)
                     .OrderBy(x => x.Key).ToList();
             }

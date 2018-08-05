@@ -27,16 +27,15 @@ namespace RatesMonitor.WebApi.Controllers
         [HttpGet]
         public IActionResult Get()
         {
-            return Content("/api/report/{year}/{ month}/{format}?");
+            return Content("use this url /api/report/{year}/{month}/{format} , {format} -txt or json");
            
         }
-
 
 
         [HttpGet("{year}/{month}/{format?}")]
         public ActionResult<string> Get(int year,int month, string format ="text")
         {
-            var reportItems = _reportService.GetWeekRatesReport(2017, 2, _reportSettings.CurrenciesForReport.ToArray());
+            var reportItems = _reportService.GetWeekRatesReport(year, month, _reportSettings.CurrenciesForReport.ToArray());
             if (format == "json")
             {
                 return new JsonResult(reportItems);
@@ -44,7 +43,6 @@ namespace RatesMonitor.WebApi.Controllers
             else
             {
                 return Content(RatesExporterToCsv.Export(reportItems));
-                // return File(RatesExporterToCsv.Export(reportItems), "application/octet-stream");
             }
         }
     }

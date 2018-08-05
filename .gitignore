@@ -9,3 +9,5 @@
 /RatesMonitor.YearUpdater/obj
 /RatesMonitor.WebApi/bin
 /RatesMonitor.WebApi/obj
+/RatesMonitor.Tests/bin
+/RatesMonitor.Tests/obj

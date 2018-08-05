@@ -5,6 +5,9 @@
 
 namespace RatesMonitor.Domain
 {
+    /// <summary>
+    /// Year and Month добавил для экспериментов с индексами
+    /// </summary>
     public class DailyCurrencyRate
     {
         public string CurrencyCode { get; set; }

@@ -95,8 +95,8 @@ namespace RatesMonitor.Core.Infrastructure
             return result;
         }
 
-
-
+        //to-do можно сделать еще версию с чтением из потока
+        //будет работать пооптимальней
         public async Task<List<DailyCurrencyRate>> GetYearRates(int year)
         {
             var result = new List<DailyCurrencyRate>();

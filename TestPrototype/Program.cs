@@ -110,11 +110,11 @@ namespace TestPrototype
            // newItem.Rate = 1;
             newItem.Date = DateTime.Now;
               
-            using (var dbContext = new RatesContext())
-            {
-                await dbContext.DailyCurrencyRates.AddAsync(newItem);
-                await dbContext.SaveChangesAsync();
-            }
+            //using (var dbContext = new RatesContext("Server=localhost\\SQLExpress;Database=ratesdb;Trusted_Connection=True;"))
+            //{
+            //    await dbContext.DailyCurrencyRates.AddAsync(newItem);
+            //    await dbContext.SaveChangesAsync();
+            //}
         }
 
         static async Task GetRates()

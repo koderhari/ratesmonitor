@@ -7,7 +7,7 @@ namespace RatesMonitor.Domain
 {
     public class RatesContext: DbContext
     {
-        public DbSet<CurrencyRate> DailyRates { get; set; }
+        public DbSet<DailyCurrencyRate> DailyRates { get; set; }
 
         public RatesContext()
         {
@@ -16,9 +16,12 @@ namespace RatesMonitor.Domain
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<CurrencyRate>()
+            modelBuilder.Entity<DailyCurrencyRate>()
                 .HasKey(o => new { o.Date, o.CurrencyCode });
-            modelBuilder.Entity<CurrencyRate>().Property(p => p.Date).HasColumnType("date");
+            modelBuilder.Entity<DailyCurrencyRate>().Property(p => p.Date).HasColumnType("date");
+            modelBuilder.Entity<DailyCurrencyRate>().Property(p => p.Date).HasColumnType("decimal(18, 6)");
+
+            modelBuilder.Entity<DailyCurrencyRate>().HasIndex(o => new { o.Year, o.Month});
             //to-do for final rate set precision
             //modelBuilder.Entity<CurrencyRate>().Property(p => p.FinalRate).prHasColumnType("date");
         }

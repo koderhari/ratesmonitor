@@ -5,11 +5,13 @@ VisualStudioVersion = 15.0.27703.2042
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestPrototype", "TestPrototype\TestPrototype.csproj", "{F67E9E99-EA3A-452C-BAAC-67F9F4D738F3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RatesMonitor.Core", "RatesMonitor.Core\RatesMonitor.Core.csproj", "{B9316221-986E-4896-B277-DE2F0CCD9B21}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RatesMonitor.Core", "RatesMonitor.Core\RatesMonitor.Core.csproj", "{B9316221-986E-4896-B277-DE2F0CCD9B21}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RatesMonitor.DailyUpdater", "RatesMonitor.DailyUpdater\RatesMonitor.DailyUpdater.csproj", "{2B9B1E7E-B4EA-4602-8F55-4648DD5B6C29}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RatesMonitor.DailyUpdater", "RatesMonitor.DailyUpdater\RatesMonitor.DailyUpdater.csproj", "{2B9B1E7E-B4EA-4602-8F55-4648DD5B6C29}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RatesMonitor.YearUpdater", "RatesMonitor.YearUpdater\RatesMonitor.YearUpdater.csproj", "{D2540913-2614-4CE6-822C-EC8E945F59FC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RatesMonitor.YearUpdater", "RatesMonitor.YearUpdater\RatesMonitor.YearUpdater.csproj", "{D2540913-2614-4CE6-822C-EC8E945F59FC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RatesMonitor.WebApi", "RatesMonitor.WebApi\RatesMonitor.WebApi.csproj", "{C094BD97-AB97-4BD8-B704-10ADE902C0DF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -51,6 +53,14 @@ Global
 		{D2540913-2614-4CE6-822C-EC8E945F59FC}.Release|Any CPU.Build.0 = Release|Any CPU
 		{D2540913-2614-4CE6-822C-EC8E945F59FC}.Release|x86.ActiveCfg = Release|Any CPU
 		{D2540913-2614-4CE6-822C-EC8E945F59FC}.Release|x86.Build.0 = Release|Any CPU
+		{C094BD97-AB97-4BD8-B704-10ADE902C0DF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C094BD97-AB97-4BD8-B704-10ADE902C0DF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C094BD97-AB97-4BD8-B704-10ADE902C0DF}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{C094BD97-AB97-4BD8-B704-10ADE902C0DF}.Debug|x86.Build.0 = Debug|Any CPU
+		{C094BD97-AB97-4BD8-B704-10ADE902C0DF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C094BD97-AB97-4BD8-B704-10ADE902C0DF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C094BD97-AB97-4BD8-B704-10ADE902C0DF}.Release|x86.ActiveCfg = Release|Any CPU
+		{C094BD97-AB97-4BD8-B704-10ADE902C0DF}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

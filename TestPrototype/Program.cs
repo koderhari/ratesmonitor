@@ -104,7 +104,7 @@ namespace TestPrototype
 
         static async Task TestInsert()
         {
-            var newItem = new CurrencyRate();
+            var newItem = new DailyCurrencyRate();
             newItem.Amount = 10;
             newItem.CurrencyCode = "RUB";
            // newItem.Rate = 1;

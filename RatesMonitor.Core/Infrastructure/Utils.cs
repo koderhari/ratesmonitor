@@ -13,5 +13,10 @@ namespace RatesMonitor.Core.Infrastructure
             str = str.Replace(".", CultureInfo.InvariantCulture.NumberFormat.NumberDecimalSeparator);
             return decimal.Parse(str, CultureInfo.InvariantCulture);
         }
+
+        public static int EuroDayOfWeek(this DateTime dt)
+        {
+            return dt.DayOfWeek == DayOfWeek.Sunday ? 7 : (int)dt.DayOfWeek;
+        }
     }
 }

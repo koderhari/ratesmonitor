@@ -8,8 +8,8 @@ namespace RatesMonitor.Core.Infrastructure
 {
     public interface IBankService
     {
-        Task<List<CurrencyRate>> GetDailyRates(DateTime date);
+        Task<List<DailyCurrencyRate>> GetDailyRates(DateTime date);
 
-        Task<List<CurrencyRate>> GetYearRates(int year);
+        Task<List<DailyCurrencyRate>> GetYearRates(int year);
     }
 }

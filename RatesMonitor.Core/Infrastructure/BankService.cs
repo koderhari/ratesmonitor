@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
@@ -23,7 +24,7 @@ namespace RatesMonitor.Core.Infrastructure
             using (var client = GetHttpClient())
             {
                 var dailyResponse = await client.GetAsync($"/en/financial_markets/foreign_exchange_market/exchange_rate_fixing/daily.txt?date={date.ToString("dd.MM.yyyy")}");
-                var (valid, rawResponse) = await IsValidResponse(dailyResponse);
+                var (valid, rawResponse) = await IsValidStringResponse(dailyResponse);
                 if (valid)
                 {
                     result = ParseDailyRates(rawResponse, date.Date);
@@ -34,7 +35,7 @@ namespace RatesMonitor.Core.Infrastructure
 
         }
 
-        private async Task<(bool valid,string responseString)> IsValidResponse(HttpResponseMessage response)
+        private async Task<(bool valid,string responseString)> IsValidStringResponse(HttpResponseMessage response)
         {
             if (response.IsSuccessStatusCode)
             {
@@ -61,6 +62,27 @@ namespace RatesMonitor.Core.Infrastructure
                 }
                 _logger.LogError($"Not successful response from Bank:{response.StatusCode} {response.ReasonPhrase} {rawResponse}");
                 return (false, string.Empty);
+            }
+        }
+
+        private async Task<bool> IsValidResponse(HttpResponseMessage response)
+        {
+            if (response.IsSuccessStatusCode)
+            {
+                return true;
+            }
+            else
+            {
+                string rawResponse = string.Empty;
+                try
+                {
+                    rawResponse = await response.Content.ReadAsStringAsync();
+                }
+                catch (Exception)
+                {
+                }
+                _logger.LogError($"Not successful response from Bank:{response.StatusCode} {response.ReasonPhrase} {rawResponse}");
+                return false;
             }
         }
 
@@ -103,7 +125,7 @@ namespace RatesMonitor.Core.Infrastructure
             using (var client = GetHttpClient())
             {
                 var yearResponse = await client.GetAsync($"/en/financial_markets/foreign_exchange_market/exchange_rate_fixing/year.txt?year={year}");
-                var (valid, rawResponse) = await IsValidResponse(yearResponse);
+                var (valid, rawResponse) = await IsValidStringResponse(yearResponse);
                 if (valid)
                 {
                     result = ParseYearRates(rawResponse);
@@ -119,7 +141,7 @@ namespace RatesMonitor.Core.Infrastructure
             var result = new List<DailyCurrencyRate>();
             var rows = rawResponse.Split("\n", StringSplitOptions.RemoveEmptyEntries);
             var ratesTemplate = ParseHeader(rows[0]);
-            for (var i = 1; i < rows.Length; i ++)
+            for (var i = 1; i < rows.Length; i++)
             {
                 try
                 {
@@ -133,6 +155,63 @@ namespace RatesMonitor.Core.Infrastructure
 
             return result;
         }
+
+
+        public async Task<List<DailyCurrencyRate>> GetYearRatesByDay(int year, Action<IEnumerable<DailyCurrencyRate>> proccessDay)
+        {
+            if (proccessDay == null)
+                throw new ArgumentNullException(nameof(proccessDay));
+            var result = new List<DailyCurrencyRate>();
+            using (var client = GetHttpClient())
+            {
+                var yearResponse = await client.GetAsync($"/en/financial_markets/foreign_exchange_market/exchange_rate_fixing/year.txt?year={year}");
+                var valid = await IsValidResponse(yearResponse);
+                if (valid)
+                {
+                    using (var stream = await yearResponse.Content.ReadAsStreamAsync())
+                    {
+                        using (var readStream = new StreamReader(stream))
+                        {
+                            await ParseYearStream(readStream, proccessDay);
+                        }
+                    }
+                }
+
+                return result;
+
+            }
+        }
+
+        private async Task ParseYearStream(StreamReader readStream, Action<IEnumerable<DailyCurrencyRate>> proccessDay)
+        {
+            int lineNumber = 0;
+            List<(string code, int amount)> ratesTemplate = null;
+            while (!readStream.EndOfStream)
+            {
+                var line = await readStream.ReadLineAsync();
+                if (lineNumber == 0)
+                {
+                    ratesTemplate = ParseHeader(line);
+                }
+                else
+                {
+                    try
+                    {
+                        var item = ParseYearRowRates(ratesTemplate, line);
+                        proccessDay(item);
+                    }
+                    catch (Exception error)
+                    {
+
+                        _logger.LogError($"Error while parse {line} {error}");
+                    }
+                }
+
+                lineNumber++;
+            }
+        }
+
+        
 
         private List<(string code, int amount)> ParseHeader(string row)
         {

@@ -41,9 +41,22 @@ namespace RatesMonitor.YearUpdater
                     continue;
                 }
                 Console.WriteLine("Start loading");
+                //Test(serviceProvider, year);
                 scheduleTask.LoadData(year);
                 Console.WriteLine("Loading finish");
             }
+        }
+
+        private static void Test(ServiceProvider serviceProvider, int year)
+        {
+            var bankService = serviceProvider.GetService<IBankService>();
+            bankService.GetYearRatesByDay(year, (list) =>
+            {
+                foreach (var item in list)
+                {
+                   Console.WriteLine("{0} {1} {2}",item.CurrencyCode,item.Date,item.FinalRate);
+                }
+            });
         }
     }
 }

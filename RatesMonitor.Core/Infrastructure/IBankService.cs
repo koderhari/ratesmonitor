@@ -11,5 +11,7 @@ namespace RatesMonitor.Core.Infrastructure
         Task<List<DailyCurrencyRate>> GetDailyRates(DateTime date);
 
         Task<List<DailyCurrencyRate>> GetYearRates(int year);
+
+        Task<List<DailyCurrencyRate>> GetYearRatesByDay(int year, Action<IEnumerable<DailyCurrencyRate>> proccessDay);
     }
 }

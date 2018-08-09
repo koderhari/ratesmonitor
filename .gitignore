@@ -11,3 +11,5 @@
 /RatesMonitor.WebApi/obj
 /RatesMonitor.Tests/bin
 /RatesMonitor.Tests/obj
+/RatesMonitor.Benchmarks/bin
+/RatesMonitor.Benchmarks/obj

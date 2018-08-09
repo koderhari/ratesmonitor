@@ -11,11 +11,18 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RatesMonitor.DailyUpdater",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RatesMonitor.YearUpdater", "RatesMonitor.YearUpdater\RatesMonitor.YearUpdater.csproj", "{D2540913-2614-4CE6-822C-EC8E945F59FC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RatesMonitor.WebApi", "RatesMonitor.WebApi\RatesMonitor.WebApi.csproj", "{C094BD97-AB97-4BD8-B704-10ADE902C0DF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RatesMonitor.WebApi", "RatesMonitor.WebApi\RatesMonitor.WebApi.csproj", "{C094BD97-AB97-4BD8-B704-10ADE902C0DF}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "RatesMonitor.Tests", "RatesMonitor.Tests", "{66F1CFB5-95D3-4D62-9786-ADF5CF18F50E}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RatesMonitor.Tests", "RatesMonitor.Tests\RatesMonitor.Tests.csproj", "{018A6B92-562A-4DE5-9F6B-02C1CC2E1283}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{9FF5FF7B-0DC8-4DD6-9C2B-C8738A874FE7}"
+	ProjectSection(SolutionItems) = preProject
+		RoadMap.txt = RoadMap.txt
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RatesMonitor.Benchmarks", "RatesMonitor.Benchmarks\RatesMonitor.Benchmarks.csproj", "{EA0D3505-6DFF-4C29-A6D0-E99B53203814}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -73,6 +80,14 @@ Global
 		{018A6B92-562A-4DE5-9F6B-02C1CC2E1283}.Release|Any CPU.Build.0 = Release|Any CPU
 		{018A6B92-562A-4DE5-9F6B-02C1CC2E1283}.Release|x86.ActiveCfg = Release|Any CPU
 		{018A6B92-562A-4DE5-9F6B-02C1CC2E1283}.Release|x86.Build.0 = Release|Any CPU
+		{EA0D3505-6DFF-4C29-A6D0-E99B53203814}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EA0D3505-6DFF-4C29-A6D0-E99B53203814}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EA0D3505-6DFF-4C29-A6D0-E99B53203814}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{EA0D3505-6DFF-4C29-A6D0-E99B53203814}.Debug|x86.Build.0 = Debug|Any CPU
+		{EA0D3505-6DFF-4C29-A6D0-E99B53203814}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EA0D3505-6DFF-4C29-A6D0-E99B53203814}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EA0D3505-6DFF-4C29-A6D0-E99B53203814}.Release|x86.ActiveCfg = Release|Any CPU
+		{EA0D3505-6DFF-4C29-A6D0-E99B53203814}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

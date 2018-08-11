@@ -54,7 +54,7 @@ namespace RatesMonitor.Core.Infrastructure
 
                     currencyData.Max = rate.FinalRate > currencyData.Max ? rate.FinalRate : currencyData.Max;
                     currencyData.Min = rate.FinalRate < currencyData.Min ? rate.FinalRate : currencyData.Min;
-                    currencyData.RatesValues.Add(rate.FinalRate);
+                    currencyData.AddRates(rate.FinalRate);
                 }
                
             }

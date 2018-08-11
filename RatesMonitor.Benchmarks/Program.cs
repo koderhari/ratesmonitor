@@ -7,6 +7,12 @@ using BenchmarkDotNet.Attributes;
 using BenchmarkDotNet.Configs;
 using BenchmarkDotNet.Diagnosers;
 using RatesMonitor.Core;
+using RatesMonitor.Domain;
+using System.Linq;
+using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
+using RatesMonitor.Core.Domain;
+using RatesMonitor.Benchmarks.ReportServiceBenchmarks;
 
 namespace RatesMonitor.Benchmarks
 {
@@ -18,52 +24,14 @@ namespace RatesMonitor.Benchmarks
             var (config,serviceProvider) = InstallConsoleEnvironment.Setup();
             //RepServiceBenchmark.repService = serviceProvider.GetService<IReportService>();
             //RepServiceBenchmark.serviceProvider = serviceProvider;
+           // var bench = new RepServiceBenchmark();
+           // bench.SetupData();
+            //bench.TestVesionWithStruct();
             BenchmarkRunner.Run<RepServiceBenchmark>();
+            //Console.WriteLine();
             Console.ReadKey();
         }
     }
 
-    [RankColumn]
-    [Config(typeof(Config))]
-    public class RepServiceBenchmark
-    {
-        private ReportService _reportService;
-
-        public RepServiceBenchmark()
-        {
-
-        }
-
-        [GlobalSetup]
-        public void SetupData()
-        {
-            _reportService = new ReportService(new DBContextFactory("Server=localhost\\SQLExpress;Database=ratesdb;Trusted_Connection=True;"));
-        }
-
-        [Benchmark]
-        public void Test()
-        {
-            //var repService = serviceProvider.GetService<IReportService>();
-            _reportService.GetWeekRatesReport(2018, 2, new string[] { "USD" });
-        }
-    }
-
-
-    public class Config : ManualConfig
-    {
-        public Config()
-        {
-            Add(new MemoryDiagnoser());
-            //Add(new ORMColum());
-            //Add(new ReturnColum());
-            //Add(Job.Default
-            //    .WithUnrollFactor(BenchmarkBase.Iterations)
-            //    //.WithIterationTime(new TimeInterval(500, TimeUnit.Millisecond))
-            //    .WithLaunchCount(1)
-            //    .WithWarmupCount(0)
-            //    .WithTargetCount(5)
-            //    .WithRemoveOutliers(true)
-            //);
-        }
-    }
+   
 }
